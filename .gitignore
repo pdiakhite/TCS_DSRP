@@ -5,3 +5,4 @@
 .DS_Store
 .quarto
 data/heros_information.csv
+setting_up_github.R
