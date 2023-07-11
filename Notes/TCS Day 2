@@ -1,0 +1,365 @@
+2 + 2
+
+number <- 5
+number
+number + 1
+number <- number + 1
+
+number <-
+  
+# R Objects
+  
+class(number)
+class(decimal)
+
+
+
+class(letter)
+class(word)#character
+
+class(logic) #logical
+
+##there is more varition types
+typeof(number)
+typeof(decimal)
+
+
+#we can change the type of object
+as.character(number)
+as.integer(decimal)
+as.integer(decimal)
+
+
+#how to round numbers
+round(decimal) #less than 0.5, rounds down, greater or equal to 0.5, rounds up
+round(22/7)
+# ?round can be used as a glossary to learn about commands
+
+ceiling(22/7) # ceiling always rounds up so rounds to 4
+floor(22/7) # floor always rounds down so 3
+
+?as.integer
+as.integer("hello") #this shouldnt work, you did something atypical but it will still let it run as an NA, missing value
+word.as.integer("hello")
+
+NA <- 5
+
+#naming object
+
+name <- "sarah"
+NAME <- "Joe"
+n.a.m.e. <- "Sam"
+n_a_m_e <- "Lisa"
+
+#those for names are good
+
+#illegal naming characters
+
+#however opporators break the name " + - /"
+#conditionals " ! @ # $ % ^ "
+#starting with an underscore
+#spaces " "
+
+n+ame <- "sam" #bad
+nam/e <- "kina" #bad
+
+#good naming conditions
+canelCase <- "start with capital letter"
+snake_case <- "underscores between letters"
+
+## Object manipulation ####
+number
+number + 7
+
+decimal
+number + decimal
+
+name
+paste(name,"Parker") # concatenates character vectors
+paste(name,"Parker is awesome")
+#since adding spaces to names is illegal we can use paste to add spaces
+
+paste0(name,"Parker")#paste 0 removes all spaces
+paste(name,number)
+logic <- T
+paste0(name,logic)
+ 
+paste("My name is" ,name, ", nice to meet you")
+paste("Hello", n.a.m.e., "I am", number, "years old")
+
+
+?grep
+food <- "watermelon"
+grepl("me", food) #T or F is the pattern in the character object
+
+## substituting characters in words
+
+#to remove something from the enviroment go to the console and type rm("what to remove")
+
+
+# Vectors, everything in R is a vector
+#to create a vector, make a vector of numerics
+
+#c stands for combine which means we are combining things into a vector
+numbers <- c(1, 2, 3, 4)
+
+range_of_vals <- 1:5 # all integers from 1 to 5
+5:10 #all integers from 5 to 10
+
+seq(2,10,2) #from 2 to 10 by 2's
+seq(from = 2, to = 10, by = 2) #explination
+seq(by = 2, from = 2, to = 10) #can put parameters out of order if they are named
+
+#what if it doesnt go in equally?
+seq(from = 2, to = 9, by = 2)
+#it will stop at 8
+
+
+rep(3, 5) #repeat 3 5x
+rep(c(1,2),5) #repeats 1,2 5x
+
+
+#how can we get a;; values between 1 snd 5 by 0.5
+
+seq(1,5,0.5)
+
+c(rep(1,3),rep(2,3))
+c(rep(1,3),rep(2,3))
+rep(1:2, each=3)
+
+
+seq(from = 1, to = 20, by = 1)
+
+  
+#rep(c(1,2),5) #repeats 1,2 5x
+seq(1,20,1)
+
+#make a vector of random numbers between 1 and 20
+numbers <- 1:20
+five_nums <- sample(numbers,5)
+
+five_nums <- sort(five_nums)
+
+#rev = reverse so reverse order
+
+rev(five_nums)
+
+
+fifteen_nums <- sample(numbers, 15, replace = T)
+fifteen_nums <- sort(fifteen_nums)
+length(fifteen_nums) #how we get length of a vector
+unique(fifteen_nums) # how we get unique values in the vector
+
+length(unique(fifteen_nums))
+table(fifteen_nums) # the counts of how many are in our vector
+
+fifteen_nums + 5 # this will add 5 to every number in our table
+
+fifteen_nums/2
+
+nums1 <- c(1,2,3)
+nums2 <- c(4,5,6)
+nums1 + nums2
+
+nums3 <- c(nums1, nums2)
+nums3 + nums1
+(nums3 + nums1) + 1
+
+#culimative total
+sum(nums3) #adds everything in nums 3
+sum(nums3 + 1)
+sum(nums3) + 1
+
+
+
+
+   # an put parameters out of order if they are named
+
+
+# Vector Indexing ####
+numbers <- rev(numbers)
+numbers
+numbers[1] # value of numbers at postion 1
+numbers[5]
+
+numbers [c(1,2,3,4,5)]
+numbers[1:5]
+numbers[c(1,5,2,12)]
+
+
+#make a vector of charactersnums3
+letters <- c("a", "b" )
+paste("a", "b", "c") #paste() is differant form c()
+
+letters <- c(letters,"d")
+letters
+letters <- c(letters, letter)
+
+
+#Datasets####
+
+?mtcars
+mtcars #print entire data set to console
+
+View(mtcars) # View entire data set in new tab, view is one of few RStudio commands that starts with a captial letter
+
+
+summary(mtcars) # gives us information about the spread of each variable
+str(mtcars)
+
+names(mtcars) #names of the cars
+
+head(mtcars) #f the variable + the first 6 rows'
+
+
+#names o this however defult is 6 
+
+
+
+#if you want more or less rows you can say
+head(mtcars, 5)
+
+mpg <- mtcars[,1]#blank means "all" all rows, first colum
+
+mtcars[2,2] #value at second row, second colum
+
+mtcars[3,] #third row, all colums
+
+#first 3 colums
+mtcars[,1:3]
+
+#use the names to pull out colums
+
+mtcars$gear
+mtcars[,c("gear", "mpg")]
+
+sum(mtcars$gear)
+
+
+#Statistics####
+
+iris #this is a dataset built into rstudios
+
+first5 <- iris$Sepal.Length[1:5]
+iris[1:5, 1]
+
+mean(first5)
+mean(iris$Sepal.Length)
+
+
+median(first5)
+median(iris$Sepal.Length)
+
+range(first5)
+max(first5) - min(first5)
+max(iris$Sepal.Length) - min(iris$Sepal.Length)
+
+#variance, Standard Deviation and interquartile range####
+
+var(first5)
+var(iris$Sepal.Length)
+
+#varience is a square value and penalizes larger values more whereas sd is where most of the values as in the same units
+
+sqrt(var(first5))
+
+IQR(first5) #range of the middle 50% of data
+quantile(first5, 0.25) #Q1
+quantile(first5,
+
+sl <- iris$Sepal.Length
+
+
+mean(sl) -3*sd(sl)
+mean(sl) + 3*sd(sl)
+as.numeric(quantile(sl,0.25)- 1.5*IQR(sl))
+quantile(sl,0.75) + 1.5*IQR(sl)
+
+#class question
+
+2. mean(iris$Sepal.Length) + 3 * sqrt(var(iris$Sepal.Length))
+
+quantile(iris$Sepal.Length, 0.25)
+
+
+## Subsetting vectors
+
+first5
+first5 < 4.75
+first5[first5 < 4.75]
+
+values <- c(first5,3,9)
+
+upper
+lower
+
+values[values > lower & values < upper] #keep values lower than upper and higher than lower
+
+##read in data
+
+
+#Conditionals####
+
+x <- 5 #set x to 5
+
+x 
+x == 3
+x == 5
+x != 3
+
+##we can test all values of a vector at once
+numbers <- 1:5
+
+numbers < 3
+numbers == 3
+
+numbers [1]
+numbers[c(1,2)]
+numbers [1:2]
+
+
+numbers[numbers < 3 ] # the numbers, brackets indicate where, numbers are less than three
+
+
+#outlier thresholds
+
+lower <- 2
+upper <- 4
+
+#pull out only outliers
+numbers[numbers < lower]
+numbers[numbers > upper]
+
+#combine with | (or)
+numbers [numbers < lower | numbers > upper]
+
+# use & to get all values in between outliner threshold
+
+numbers[numbers >= lower & numbers <= upper]
+
+#using & with outlier thrshold doesnt work
+numbers[numbers < lower & numbers > upper]
+
+
+## NA Values
+NA #unknown
+NA + 5
+
+sum(1,2,3,NA) #returns NA if any value is NA
+sum(1,2,3,NA, na.rm = T)
+
+mean(c(1,2,3,NA), na.rm = T)
+
+
+
+
+
+
+
+
+
+
+
+# interger(0) means its an empty vector and nothing fit the conditions
+
+
