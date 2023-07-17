@@ -1,0 +1,90 @@
+```{r}
+#Part 1
+
+#Compare the streams of albums and singles
+
+#null: the average stream rate of albums and singles  are the same 
+
+#alternative hypothesis: the average stream rate of albums and singles are different
+
+
+albums <- top_10_artists|> filter(Album_type == "album")
+
+singles <- top_10_artists|> filter(Album_type == "single")
+
+
+t.test(albums$Stream, singles$Stream, paired = F)
+```
+
+```{r}
+
+#Part 2
+
+##ANOVA####
+
+
+anova_results <- aov(data = top_10_artists, Stream ~ Album_type)
+
+##are any groups different from each other
+summary(anova_results)
+
+#which ones?
+TukeyHSD(anova_results)
+
+
+
+head(top_10_artists)
+
+Types <- top_10_artists |>
+  summarize(.by = Album_type,
+            count = sum(!is.na(Album_type)))
+
+
+starwars_top5species <- starwars |>
+  filter(species %in% top5species$species)
+
+#not the best because im not exculding anything
+Type_ofsong <- top_10_artists |>
+  filter(Album_type %in% Types$Album_type)
+
+
+#different topic
+
+
+
+
+
+head(top_10_artists)
+
+Top_Artists <- top_10_artists |>
+  summarize(.by = Artist,
+            count = sum(!is.na(Artist)))
+
+
+Top_Artistss <- top_10_artists |>
+  summarize(.by = Artist,
+            count = sum(!is.na(Artist))) |>
+  slice_max(count, n = 3, with_ties = F)
+
+
+
+
+
+
+
+
+starwars_top5species <- starwars |>
+  filter(species %in% top5species$species)
+
+#not the best because im not exculding anything
+Top_3_Artists <- top_10_artists |>
+  filter(Artist %in% Top_Artists$Artist)
+
+
+
+
+
+
+
+
+```
