@@ -1,0 +1,240 @@
+```{r}
+
+install.packages("tidyr")
+install.packages("janitor")
+
+
+library(tidyr)
+library(janitor)
+library(dplyr)
+
+starwars
+clean_names(starwars, case = "small_camel")
+clean_names(starwars, case = "screaming_snake")
+clean_names(starwars, case = "upper_lower")
+
+#do this if you want to save the data set, now that you gave it a new name it can call on it like i did with top_10_artists
+
+new_starwars <- clean_names(starwars, case = "upper_lower")
+
+#something that didnt work
+new_starwars <- rename(new_starwars, 'hair*color' = HAIR_COLOR)
+
+
+arrange()
+
+
+StarWarsWomen <- select(arrange(filter(starwars, sex == "female"), mass), name, species)
+
+
+#make a table of names and species a
+StarWarsWomen <- select(arrange(filter(starwars, sex == "female"), mass), name, species)
+
+
+##using pipes
+
+StarWarsWomen <- starwars |> 
+  filter(sex == "female") |>
+  arrange(birth_year) |>
+  select(name, species)
+  
+
+slice_head(st)
+slice_tail()
+slice_min()
+slice_max()
+slice_sample()
+
+## 10 tallest star wars characters
+slice_max(starwars, height, n = 1, by = species, with_ties = F)
+
+##tidy data
+
+table4a
+
+tidy_table4a <- pivot_longer(table4a,
+                             cols = c('1999', '2000'),
+                             names_to = "year",
+                             values_to = "cases")
+
+
+table4a #shows population data
+##How would we pivot table4b to be in a tidy format
+
+table4b
+
+#use command I to fix the indentions
+
+tidy_table4b <- pivot_longer(table4b,
+                             cols = c('1999', '2000'),
+                             names_to = "year",
+                             values_to = "population")
+
+#pivot wider
+table2
+
+pivot_wider(table2,
+            names_from = type,
+            values_from = count)
+
+## seperate
+
+table3
+
+separate(table3,
+         rate,
+         into = c("cases", "population"),
+         sep = "/")
+
+table5
+
+tidy_table5 <- unite(table5,
+      "year",
+      c("century", "year"),
+      sep = "")
+
+tidy_table5 <- unite(table5, |
+      "year",
+      c("century", "year"),
+      sep = "")
+
+
+##bind rows
+
+new_data <- data.frame(country = "USA", year = "1999", cases = "1042", population = "2000000")
+
+bind_rows(tidy_table5, new_data)
+
+##ANOVA####
+
+iris
+
+
+anova_results <- aov(data = iris, Sepal.Width ~ Species)
+
+##are any groups different from each other
+summary(anova_results)
+
+#which ones?
+TukeyHSD(anova_results)
+
+##trying with petal length
+
+anova_results <- aov(data = iris, Sepal.Length ~ Species)
+
+##are any groups different from each other
+summary(anova_results)
+
+#which ones?
+TukeyHSD(anova_results)
+
+
+#Starwars
+head(starwars)
+unique(starwars$species)
+
+#which 5 species are the most common
+
+top5species <- starwars |>
+  summarize(.by = species,
+            count = sum(!is.na(species)))
+
+
+top5species
+
+starwars_top5species <- starwars |>
+  filter(species %in% top5species$species)
+
+
+starwars_top5species
+
+
+
+
+
+
+
+```
+
+```{r}
+
+top5species <- starwars |>
+  summarize(.by = species,
+            count = sum(!is.na(species))) |>
+  slice_max(count, n = 3)
+
+
+top5species
+
+starwars_top5species <- starwars |>
+  filter(species %in% top5species$species)
+
+
+top5species
+
+starwars_top5species <- starwars |>
+  filter(species %in% top5species$species)
+
+
+starwars_top5species
+
+a <- aov(height ~ species, starwars_top5species)
+
+summary(a)
+TukeyHSD(a)
+
+
+##Chi-squared
+starwars_clean <- starwars |>
+  filter()
+
+install.packages(mpg)
+
+library(ggplot2)
+
+View(mpg)
+print(mpg)
+
+table(mpg$cyl, mpg$displ)
+
+
+t <- table(mpg$year, mpg$drv)
+
+chisq_results <- chisq.test(t)
+chisq_results$p.value
+chisq_results$residuals
+
+
+install.packages("corrplot")
+library(corrplot)
+
+corrplot(chisq_results$residuals)
+
+
+#the smaller and lighter,. the colser to zero. the bigger and bluer, the closer to extremes, the bigger and redder the closer to 
+
+
+heros <- read.csv("\Users\Cheryl\OneDrive\Documents\TCS DSRP\super_hero_powers (1).csv")
+
+"\Users\Cheryl\OneDrive\Documents\TCS DSRP\super_hero_powers (1).csv"
+
+View(super_hero_powers)
+
+heros <- super_hero_powers 
+
+head(heros)
+
+#clean data
+heros_clean <- heros |>
+  filter(Alignment != "",
+         Gender != "-")
+
+##plot the counts of alignment and gender
+
+ggplot(heros_clean, aes(x = Gender, y = Alignment)) +
+  geom_count() +
+  theme_minimal()
+
+
+
+```

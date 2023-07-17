@@ -1,0 +1,145 @@
+```{r}
+
+getwd()
+Spotify_Youtube = read.csv("/Users/Cheryl/OneDrive/Desktop/Data2/Spotify_Youtube.csv")
+
+library(dplyr)
+View(Spotify_Youtube)
+View(top_10_artists)
+
+#can filter by artist to see how many times theyve entered the top charts
+filter(Spotify_Youtube, Album.Type == "single")
+
+filter(Spotify_Youtube, Channel == "Gorillaz")
+
+filter(Spotify_Youtube, Comments <= 10000 )
+
+filter(Spotify_Youtube, Album == "Demon Days")
+
+filter(Spotify_Youtube, grepl("single", Album_type))
+
+
+#select
+select(Spotify_Youtube, Channel)
+
+#take out unnecessary values
+select(Spotify_Youtube, -c(Url_spotify, Uri, Url_youtube, Description, official_video, Stream))
+
+
+#mutate
+Spotify_Youtubemute = select(Spotify_Youtube, Track, Views, Likes, Stream)
+Spotify_Youtubemute
+
+#divide by views by streams required then multiply that output by royalty 
+#Royalty Rates (Per Stream) on Spotify - $0.004
+mutate(Spotify_Youtubemute, 
+       Stream_m = Stream * 0.004)
+
+mutate(Spotify_Youtubemute,
+      mean_views = mean(views, na.rm = T))
+
+#summarize
+#mean views of all channels or artists and plot that 
+
+summarize(Spotify_Youtube,
+          mean_views = mean(views, na.rm = T))
+
+#ask about mean_views in lab
+summarize(Spotify_Youtube,
+          mean_views = mean(views,  na.rm = T),
+          .by = Artist)
+
+#arrange
+
+#My dataset arranged the songs in groups by artist rather than the songs acutal postion on the top charts. WIth this function, I can organize the songs by stream and view count in descending order to see which song was actually the most popular.
+
+arrange(Spotify_Youtube, desc(Stream))[0:10]
+arrange(Spotify_Youtube, desc(Stream))[1:10, 2]
+arrange(Spotify_Youtube, desc(Views))
+
+
+
+#plot
+
+#top 10 artists by stream
+top_10_artists <- arrange(Spotify_Youtube, desc(Stream))
+
+top_10_artist <- arrange(top_10_artists, desc(Stream))[1:10, 3]
+
+#take the streams and multiply each by 0.004 to find the average royalty rates per stream
+Stream_m = mutate(top_10_artists,
+                  Stream_m = Stream * 0.004)
+
+Stream_mm = mutate(top_10_artists,
+                  Stream_m = Stream * 0.004)
+
+#arrange(Spotify_Youtube, desc(Stream))[1:10, 28]
+#add_row(Stream_m)
+
+#arrange the streams to correlate with the top 10 artists
+
+
+
+
+
+
+top_10_streams = arrange(top_10_artists, desc(Stream_m))
+
+
+
+
+library(ggplot2)
+
+
+#data_frame(top_10_artists)
+
+#write.csv(top_10_artists, "top_10_artists.csv")
+
+#View(top_10_artists)
+
+#new_data <- slice_sample(top_10_artists, n = 10)
+
+
+
+
+View(Stream_m)
+
+Artists_10 <- select(Stream_m, Artist, Stream_m)
+
+clean_Artist <- select(Artists_10, Artist)[1:10, 1]
+
+clean_Stream <- select(Artists_10, Stream_m)[1:10, 1]
+
+clean_data2 <- cbind(clean_Artist, clean_Stream)
+
+data.frame(clean_data2)
+
+write.csv(clean_data2, "clean_data2.csv")
+
+View(clean_data2)
+
+print(clean_data2)
+
+library(scales)
+options(scipen = 999) #disable scientific notion
+
+install.packages("RColorBrewer")
+library(RColorBrewer)
+
+
+ggplot(data = clean_data2, aes(x = reorder(clean_Artist, -clean_Stream), y = clean_Stream, fill = clean_Artist)) + 
+  geom_bar(stat = "summary",
+           fun = "mean",
+           width = 0.7,
+           color = "black") +
+    scale_y_continuous(labels = label_number(scale = 1e-6, prefix = "$", suffix = "M")) +
+  theme_minimal() +
+  labs(
+    title = "Royalty Rates of the Top 10 artists with songs on Spotify's Top Charts (assuming 100% profit)",
+    x = "Artist",
+    y = "Streams",
+    fill = "Artists"
+  ) +
+  scale_fill_brewer(palette = "Greens")
+
+```
